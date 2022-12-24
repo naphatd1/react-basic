@@ -9,7 +9,6 @@ function App() {
   return (
     <>
       <AppHeader title='React' year={2022}/>
-      <AppHeader title='Typescript'/>
       <h2>Hello React Typescript</h2>
       <AppFooter />
     </>

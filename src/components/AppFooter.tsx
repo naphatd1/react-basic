@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Button, ButtonGroup } from '@chakra-ui/react'
 type User = {
   fullname: string
 }
@@ -19,7 +20,7 @@ const AppFooter = () => {
       {user && <p>User: {user.fullname}</p>}
       
       <p>created by {showMsg}</p>
-      <button onClick={company}>Clickme</button>
+      <Button colorScheme='teal' size='md' onClick={company}>Clickme</Button>
       <p>{new Date().getFullYear()} &#169;</p>
       {isShow && <p>Hello React 18</p>}
       <p>{number}</p>
