@@ -3,7 +3,7 @@ import React from 'react'
 function DRoom() {
   return (
     <>
-      <p>Dashbord Room</p>
+      <p>Dashboard Room</p>
     </>
   )
 }

@@ -3,7 +3,7 @@ import React from 'react'
 function DHome() {
   return (
     <>
-      <p>Dashbord Home</p>
+      <p>Dashboard Home</p>
     </>
   )
 }
