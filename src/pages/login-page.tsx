@@ -11,14 +11,45 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    FormErrorMessage,
+    useToast,
   } from '@chakra-ui/react';
 import { useEffect } from 'react';
-  
+import { useForm } from 'react-hook-form';
+import { LoginFormInput } from '../app-types/login-form-input.type';
+import { useNavigate} from 'react-router-dom';
+import * as yup from 'yup'
+import {yupResolver} from '@hookform/resolvers/yup'
   export default function LoginPage() {
+const toast = useToast()
+    const schema = yup.object().shape({
+      email: yup.string().required('Input Email').email('email ไม่ถูกต้อง'),
+      password: yup.string().required('Input Password').min(3,'รหัสผ่าน 3 ตัวขึ้นไป')
+    })
+
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormInput>({
+      resolver: yupResolver(schema),
+      mode: 'all'
+    });
+    const onSubmit = (data: LoginFormInput) => 
+    // console.log(data);
+    toast({
+      title: 'ผลการทำงาน',
+      description: JSON.stringify(data),
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+      position: 'top-right'
+
+      
+    })
+    const navigate = useNavigate()
+
     useEffect(() => {
         document.title = 'Login Page';
       }, []);
     return (
+      <form onSubmit= {handleSubmit(onSubmit)} noValidate action="">
       <Flex
         minH={'100vh'}
         align={'center'}
@@ -37,13 +68,19 @@ import { useEffect } from 'react';
             boxShadow={'lg'}
             p={8}>
             <Stack spacing={4}>
-              <FormControl id="email">
+              <FormControl id="email" isInvalid={errors.email ? true : false}>
                 <FormLabel>Email address</FormLabel>
-                <Input type="email" />
+                <Input type="email" {...register("email")} />
+                <FormErrorMessage>
+                  {errors.email && errors.email?.message}
+                </FormErrorMessage>
               </FormControl>
-              <FormControl id="password">
+              <FormControl id="password" isInvalid={errors.password ? true : false}>
                 <FormLabel>Password</FormLabel>
-                <Input type="password" />
+                <Input type="password" {...register("password")} />
+                <FormErrorMessage>
+                  {errors.password && errors.password?.message}
+                </FormErrorMessage>
               </FormControl>
               <Stack spacing={10}>
                 <Stack
@@ -53,15 +90,21 @@ import { useEffect } from 'react';
                   <Checkbox>Remember me</Checkbox>
                   <Link color={'blue.400'}>Forgot password?</Link>
                 </Stack>
-                <Button
+                <Button 
+                isLoading={isSubmitting}
+                loadingText="กำลังเข้าระบบ..."
+                  type='submit'
                   bg={'blue.400'}
                   color={'white'}
                   _hover={{
                     bg: 'blue.500',
                   }}>
-                  Sign in
+                  Log In
                 </Button>
                 <Button
+                onClick={() => {
+                  navigate('/')
+                }}
                   bg={'yellow.400'}
                   color={'white'}
                   _hover={{
@@ -74,6 +117,7 @@ import { useEffect } from 'react';
           </Box>
         </Stack>
       </Flex>
+      </form>
     );
   }
   

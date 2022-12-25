@@ -11,9 +11,13 @@ import {
 
 import homepageStyle from '../styles/homepage.module.css'
 import { useNavigate } from 'react-router-dom'
+import { useAppSelector } from '../redux-toolkit/hooks'
+import authSlice, { selectAuthState } from '../redux-toolkit/auth/auth-slice'
+
 
 export default function HomePage() {
   const navigate = useNavigate()
+  const {profile, email} = useAppSelector(selectAuthState)
   return (
     <Container maxW={'5xl'}>
       <Stack
@@ -27,7 +31,7 @@ export default function HomePage() {
           fontSize={{ base: '3xl', sm: '4xl', md: '6xl' }}
           lineHeight={'110%'}
         >
-          Meeting Room
+          Welcome {profile} {email}
           <Text as={'p'} color={'orange.400'}>
             Room Booking System
           </Text>
